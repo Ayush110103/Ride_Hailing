@@ -1,0 +1,14 @@
+ride-hailing-app/
+├── api-gateway/
+│   ├── Dockerfile
+│   └── package.json
+├── auth-service/
+│   ├── Dockerfile
+│   └── package.json
+├── cab-service/
+│   ├── Dockerfile
+│   └── package.json
+├── order-service/
+│   ├── Dockerfile
+│   └── package.json
+└── docker-compose.yml
