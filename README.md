@@ -146,5 +146,236 @@ Each service has a health check endpoint:
 4. Push to the branch
 5. Create a new Pull Request
 
+## Individual Service Testing
+
+### Auth Service Testing
+```bash
+# Navigate to auth service directory
+cd auth-service
+
+# Install dependencies
+npm install
+
+# Start the service independently
+npm start
+```
+
+Test endpoints using these commands:
+```http
+### Health Check
+GET http://localhost:4001/
+
+### Register User
+POST http://localhost:4001/auth/register
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123",
+    "fullName": "Test User",
+    "phone": "+1234567890"
+}
+
+### Login User
+POST http://localhost:4001/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123"
+}
+```
+
+### Cab Service Testing
+```bash
+# Navigate to cab service directory
+cd cab-service
+
+# Install dependencies
+npm install
+
+# Start the service independently
+npm start
+```
+
+Test endpoints using these commands:
+```http
+### Health Check
+GET http://localhost:4002/
+
+### List Available Cabs
+GET http://localhost:4002/cabs
+Authorization: Bearer <your-jwt-token>
+
+### Update Cab Location
+PUT http://localhost:4002/cabs/:cabId/location
+Authorization: Bearer <your-jwt-token>
+Content-Type: application/json
+
+{
+    "latitude": 12.972442,
+    "longitude": 77.580643
+}
+
+### Update Cab Availability
+PUT http://localhost:4002/cabs/:cabId/availability
+Authorization: Bearer <your-jwt-token>
+Content-Type: application/json
+
+{
+    "isAvailable": true
+}
+```
+
+### Order Service Testing
+```bash
+# Navigate to order service directory
+cd order-service
+
+# Install dependencies
+npm install
+
+# Start the service independently
+npm start
+```
+
+Test endpoints using these commands:
+```http
+### Health Check
+GET http://localhost:4003/
+
+### Create New Order
+POST http://localhost:4003/orders
+Authorization: Bearer <your-jwt-token>
+Content-Type: application/json
+
+{
+    "pickup": {
+        "coordinates": [77.580643, 12.972442],
+        "address": "Pickup Location"
+    },
+    "dropoff": {
+        "coordinates": [77.590643, 12.982442],
+        "address": "Dropoff Location"
+    },
+    "cabId": "cab-id-here"
+}
+
+### Get Order Status
+GET http://localhost:4003/orders/:orderId
+Authorization: Bearer <your-jwt-token>
+
+### Update Order Status
+PUT http://localhost:4003/orders/:orderId/status
+Authorization: Bearer <your-jwt-token>
+Content-Type: application/json
+
+{
+    "status": "IN_PROGRESS"
+}
+```
+
+### API Gateway Testing
+```bash
+# Navigate to api gateway directory
+cd api-gateway
+
+# Install dependencies
+npm install
+
+# Start the service independently
+npm start
+```
+
+Test endpoints using these commands:
+```http
+### Health Check
+GET http://localhost:3000/health
+
+### Test Auth Service through Gateway
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123",
+    "fullName": "Test User",
+    "phone": "+1234567890"
+}
+
+### Test Cab Service through Gateway
+GET http://localhost:3000/api/cabs
+Authorization: Bearer <your-jwt-token>
+
+### Test Order Service through Gateway
+GET http://localhost:3000/api/orders/:orderId
+Authorization: Bearer <your-jwt-token>
+```
+
+### Running Unit Tests
+Each service includes its own test suite:
+
+```bash
+# In auth-service directory
+cd auth-service
+npm test
+
+# In cab-service directory
+cd cab-service
+npm test
+
+# In order-service directory
+cd order-service
+npm test
+
+# In api-gateway directory
+cd api-gateway
+npm test
+```
+
+### Environment Setup for Individual Testing
+Each service requires its own environment variables. Create a `.env` file in each service directory:
+
+Auth Service `.env`:
+```env
+PORT=4001
+MONGODB_URI=mongodb://localhost:27017/auth
+JWT_SECRET=your_jwt_secret
+```
+
+Cab Service `.env`:
+```env
+PORT=4002
+MONGODB_URI=mongodb://localhost:27017/cab
+JWT_SECRET=your_jwt_secret
+```
+
+Order Service `.env`:
+```env
+PORT=4003
+MONGODB_URI=mongodb://localhost:27017/order
+JWT_SECRET=your_jwt_secret
+```
+
+API Gateway `.env`:
+```env
+PORT=3000
+AUTH_SERVICE_URL=http://localhost:4001
+CAB_SERVICE_URL=http://localhost:4002
+ORDER_SERVICE_URL=http://localhost:4003
+```
+
+### Debugging Individual Services
+Each service can be debugged independently using Node.js debugging:
+
+```bash
+# Start service in debug mode
+node --inspect server.js
+
+# Or using npm script (if configured)
+npm run debug
+```
+
+Then connect using Chrome DevTools or VS Code debugger.
 
 
