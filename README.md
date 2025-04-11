@@ -68,7 +68,7 @@ docker-compose up -d
 
 1. **User Registration** (Auth Service)
 ```http
-POST http://localhost:4001/api/auth/register
+POST http://localhost:4001/auth/register
 Content-Type: application/json
 
 {
@@ -81,7 +81,7 @@ Content-Type: application/json
 
 2. **User Login** (Auth Service)
 ```http
-POST http://localhost:4001/api/auth/login
+POST http://localhost:4001/auth/login
 Content-Type: application/json
 
 {
@@ -93,7 +93,7 @@ Content-Type: application/json
 
 3. **Create Order** (Order Service)
 ```http
-POST http://localhost:4003/api/orders
+POST http://localhost:4003/orders
 Authorization: Bearer <your-jwt-token>
 Content-Type: application/json
 
@@ -106,7 +106,7 @@ Content-Type: application/json
 
 4. **Check Order Status** (Order Service)
 ```http
-GET http://localhost:4003/api/orders/<order-id>
+GET http://localhost:4003/orders/<order-id>
 Authorization: Bearer <your-jwt-token>
 ```
 
